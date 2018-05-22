@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+  <head>
+	<meta charset="utf-8">
+ 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="screen-orientation" content="portrait">
+	<meta name="x5-orientation" content="portrait">
+	<meta name="keywords" content="可视化编程,blockly,mu,mu robots,SpaceBot,morpx,杭州摩图科技有限公司,mu blockly,mu可视化编程">
+	<meta name="description" content="Morpx is a technology startup originated in Silicon Valley and grown up in Hangzhou. Our mission is to give vision, the primary sense of human, to any ordinary object through hardware and software innovations.">
+  	<title>mu可视化编程，mu blockly-可视化编程,blockly,mu,mu robots,SpaceBot,morpx,杭州摩图科技有限公司,mu blockly,mu可视化编程</title>
+	<link rel="stylesheet" href="css/style.css" />
+	<link rel="stylesheet" href="css/swiper.min.css">
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<script src="js/swiper.min.js"></script>
+	<script src="js/develop.js"></script>
+	<script src='js/create2.js'></script>
+	<script src="js/hadware.js"></script>
+	<script src="js/android.js"></script>
+	<script src="js/ios.js"></script>
+  </head>
+<style>
+/**
+ * app2.1
+ */
+.blocklyFlyout {
+	border-right: solid 3px #fd7e4c;
+	border-top: solid 1px #f67e4c;
+}
+.blocklyFlyoutBackground {
+    fill: #fd7e4c;
+    fill-opacity: 0.2;
+}
+#blocklyDiv {
+    top: 44px;
+    bottom: 50px;
+    position: relative;
+}
+/**
+ * app2.1 end
+ */
+
+input.blocklyHtmlInput{
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+.blocklyDropDownDiv {
+/*     padding-right: 10px; */
+    max-width: 220px;
+}
+.blocklyDropDownDiv .goog-menuitem {
+    padding: 3px 12px;
+    white-space: nowrap;
+    float: left;
+    height: 25px;
+    box-sizing: border-box;
+    border: solid 1px #dcdcdc;
+    margin: 2px 6px;
+    text-align: center;
+}
+#funceditor .blocklyFlyout{
+	display: none !important;
+} 
+#funceditor .blocklyToolboxDiv{
+  height: 75%;
+}
+
+</style>
+<body class="index2">
+<div class="deletetips"><img class="delete1"  src="images/delete.png"/><img class="delete2"  src="images/delete2.png"/></div>
+<input type="text" name="" value="0" id="functionnum" style="display:none">
+<div id="collaborators"></div>
+<div id="blocklyDiv"></div>  
+<div id="javascript">
+	<img id="jspackup" src="images/close.png" alt="close" onclick="jsmove()"/>
+	<p class="jstext"></p>
+</div>  
+<div id="funceditor">
+	<img id="packup" src="images/close.png" alt="close" onclick='move()'/>
+</div>
+<!-- <span class="button javascript" onclick="jsshow(Blockly.Xml.workspaceToDom(workspace))">
+		<img src="images/js.png" alt="" />
+</span>  -->
+<!-- Sidebar -->
+<div class="hide">
+    	    <h1>Vertical Blocks</h1>
+	    <h1 style="color:red">Warning: Work in Progress</h1>
+	    <p>
+	      <a href="javascript:void(workspace.setVisible(true))">Show</a>
+	      - <a href="javascript:void(workspace.setVisible(false))">Hide</a>
+	    </p>
+	    <form id="options" style="display: none;">
+	        <select name="dir" onchange="document.forms.options.submit()">
+	          <option value="ltr">LTR</option>
+	          <option value="rtl">RTL</option>
+	        </select>
+	        <select name="toolbox" onchange="document.forms.options.submit()">
+	          <option value="categories">Categories</option>
+	          <option value="simple">Simple</option>
+	        </select>
+	        <select name="side" onchange="document.forms.options.submit()">
+	          <option value="start">Start</option>
+	          <option value="end">End</option>
+	          <option value="top">Top</option>
+	          <option value="bottom">Bottom</option>
+	        </select>
+	     </form>
+	
+	    <p>
+	      <input type="button" value="Export to XML" onclick="toXml()">
+	      &nbsp;
+	      <input type="button" value="Import from XML" onclick="fromXml()" id="import">
+	      <br>
+	      <input type="button" value="To JavaScript" onclick="toCode('JavaScript')">
+	      <br>
+	      <textarea id="importExport" style="width: 26%; height: 12em"
+	        onchange="taChange();" onkeyup="taChange()"></textarea>
+	    </p>
+	
+	    <hr>
+	
+	    <p>
+	      Log events: &nbsp;
+	      <input type="checkbox" onclick="logEvents(this.checked)" id="logCheck">
+	    </p>
+	
+	    <p>
+	      Stress test: &nbsp;
+	      <input type="button" value="Sprinkles!" onclick="sprinkles(100)">
+	      <input type="button" value="Spaghetti!" onclick="spaghetti(3)">
+	      <input type="button" value="Fake some drags!" onclick="fakeManyDrags()">
+	    </p>
+	
+	    <p>
+	      Glows: &nbsp;
+	      <input type="button" value="Glow last clicked block" onclick="glowBlock()" />
+	      <input type="button" value="Unglow last clicked block" onclick="unglowBlock()" />
+	      <input type="button" value="Stack glow last clicked block" onclick="glowStack()" />
+	      <input type="button" value="Stack unglow last clicked block" onclick="unglowStack()" />
+	    </p>
+	
+	    <p>
+	      Log flyout events: &nbsp;
+	      <input type="checkbox" onclick="logFlyoutEvents(this.checked)" id="logFlyoutCheck">
+	    </p>
+	
+	    <p>
+	      Enable sounds (after refresh): &nbsp;
+	      <input type="checkbox" onclick="setSoundsEnabled(this.checked)" id="soundsEnabled">
+	    </p>
+	
+	    <p>
+	      <input type="button" value="Undo" onclick="workspace.undo()" />
+	      <input type="button" value="Redo" onclick="workspace.undo(true)" />
+	    </p>
+	    <p>
+	      Report:
+	      <input id="reportValue" type="text" value="123" />
+	      <input type="button" value="Report last clicked block" onclick="reportDemo()" />
+	    </p>
+</div>
+<div class="dwt">
+	<!-- <textarea name="funcintro" id="funcintro" cols="30" rows="10"></textarea> -->
+</div>
+</body>
+<script>
+	function setcolor(){
+		$('.blocklyWidgetDiv .goog-menuitem ').each(function(){
+			$(this).find('.goog-menuitem-checkbox').css('background-color',$(this).children('.goog-menuitem-content').text());
+		});
+			var x= $(window).width()-60;
+			if(!$('#blocklyDiv').hasClass('simyple')){   //simple 教育模块
+			          var y= $(window).height()-80;
+			}
+			else{
+				var y= $(window).height()-130;
+			}
+		  
+	    $('.blocklyTrash').attr('transform','translate('+x+','+y+')');
+	    $('.blocklyTrash').css({"opacity":"0.6","display":"none"})
+	}
+	function setlangs(){
+		$('.blocklyTreeRow').eq(1).css({"border-bottom":"solid 1px #dcdcdc","color":"#8a8a8a"});
+		$('.blocklyTreeRow').eq(2).css({"border-bottom-color":"#FD7E4C","color":"#FD7E4C","":""});
+		$('.blocklyTreeRow').eq(3).css({"border-bottom-color":"#22AB7F","color":"#22AB7F"});
+		$('.blocklyTreeRow').eq(4).css({"border-bottom-color":"#2266AB","color":"#2266AB"});
+		var url=window.location.href;
+		var lang=$.getUrlParam('lang');
+		//add by rongw  language
+		if(lang=='zh-cn'){
+			$('#prev').text('< 返回');
+			$('#androprev').text('< 返回');
+			$('#toolbox-categories').find('category').each(function(index){
+				  switch(index){
+				  	case 0: 
+				  	$(this).attr('name','控制');
+				  	break;
+				  	case 1: 
+				  	$(this).attr('name','条件');
+				  	break;
+				  	case 2: 
+				  	$(this).attr('name','动作');
+				  	break;
+				  }
+			})
+		}else{
+			$('#prev').text('< BACK');
+			$('#androprev').text('< BACK');
+			$('#toolbox-categories').find('category').each(function(index){
+				  switch(index){
+				  	case 0: 
+				  	$(this).attr('name','Flow Controls');
+				  	break;
+				  	case 1: 
+				  	$(this).attr('name','Conditions');
+				  	break;
+				  	case 2: 
+				  	$(this).attr('name','Actions');
+				  	break;
+				  }
+			})
+		}
+	}
+$('.blocklyWidgetDiv').on('keyup','.blocklyHtmlInput',function(){
+		if($('body').hasClass('kuge')){
+			console.log($(this).val());
+			if(parseInt($(this).val())<0){
+	                                 $(this).val(0);
+			}
+			if(parseInt($(this).val())>255){
+	                                 $(this).val(255);
+			}
+		}
+});
+	$(function(){
+		setInterval('setcolor()',100);
+    		setlangs();
+    		$('#blocklyDiv').css('height',$(window).height()-94);
+    		// $('#blocklyDiv').css('height',$(window).height()-50);
+    		// console.log();
+	})
+
+
+	// setupDragSurface
+	// Blockly.Scrollbar.prototype.
+	
+	// function setnumb(min,max){
+	// 	test=$('.slider-input').jRange({
+	// 		from: min,
+	// 		to: max,
+	// 		step: 1,
+	// 		scale: [min,max],
+	// 		format: '%s',
+	// 		width: 200,
+	// 		showLabels: true,
+	// 		isRange : false,
+	// 		disable:false
+	// 	});
+	// }
+	
+	
+	// function getvalue(numb){
+	// 	$('.inputnumb').text($('.slider-input').val());
+	// }
+	// function addvalue(){
+	// 	var max=parseInt($('.scale').children('span').eq(1).children('ins').text());
+	// 	var number=parseInt($('.slider-input').val())+1;
+	// 	if(number<max+1){
+	// 		$('.slider-input').val(number);
+	// 		$('.inputnumbox .pointer-label.high').text(number);	
+	// 	}
+		
+	// }
+	// function reducevalue(){
+	// 	var min=parseInt($('.scale').children('span').eq(0).children('ins').text());
+	// 	var number=parseInt($('.slider-input').val())-1;
+	// 	if(number>min-1){
+	// 		$('.slider-input').val(number);
+	// 		$('.inputnumbox .pointer-label.high').text(number);	
+	// 	}
+	// }
+
+	// function deletinputnum(){
+	// 	$('.inputnumbox').remove();
+		
+	// 	var  html='<div class="inputnumbox range">  <span class="ringicon iconleft range" onclick="reducevalue()" >-</span><input type="hidden" class="slider-input range" value="" /><span class="ringicon iconright range"  onclick="addvalue()" >+</span></div>';
+	// 	$('body').append(html);
+	// }
+
+	//setnumb(1,1000);
+
+</script>
+</html>
