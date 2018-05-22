@@ -1,0 +1,1 @@
+Blockly.Xml.workspaceToDom(Blockly.mainWorkspace)
