@@ -1,0 +1,40 @@
+a,blockquote,body,dd,div,dl,dt,fieldset,form,h1,h2,h3,h4,h5,h6,html,img,input,label,li,ol,p,pre,td,th,ul{margin:0;padding:0;border:0;outline:0}
+body{line-height:auto;font-size:100%;box-sizing:border-box}
+h1,h2,h3,h4,h5,h6{font-size:100%;padding:0;margin:0}
+ol,ul{list-style:none}
+a{text-decoration:none;outline:0;}
+a:hover{text-decoration:none;outline:0}
+a:focus{outline:0;text-decoration:none}
+
+.clearfix{zoom:1}
+.clearfix:after,.clearfix:before{display:table;line-height:0;content:""}
+.clearfix:after{clear:both}
+
+.fR{float:right}
+.fL{float:left}
+body,html{
+    background: white;
+    font-size: 15px;
+/*     font-family: "Microsoft YaHei",微软雅黑 !important; */
+    color: #333;
+    width:100%;
+    box-sizing: border-box;
+    line-height: 22px;
+    -webkit-text-size-adjust:100% !important;/*ios端css属性生效*/
+    -webkit-text-size-adjust:none !important;
+    -webkit-tap-highlight-color: none;/*手机端自带的点击效果去除*/
+}
+.class{-webkit-tap-highlight-color:transparent;}/* 手机端点击之后的背景设置为透明 */
+
+p,span{
+	line-height: 22px;
+}
+.hide{display: none;}
+@font-face{
+    font-family: "PingFang-Regular";
+    src:url('../fonts/PingFang-Regular.ttf') format('TTF');
+    font-weight: normal;
+}
+
+
+
