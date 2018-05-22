@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+  <head>
+	<meta charset="utf-8">
+ 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="screen-orientation" content="portrait">
+	<meta name="x5-orientation" content="portrait">
+	<meta name="keywords" content="可视化编程,blockly,mu,mu robots,SpaceBot,morpx,杭州摩图科技有限公司,mu blockly,mu可视化编程">
+	<meta name="description" content="Morpx is a technology startup originated in Silicon Valley and grown up in Hangzhou. Our mission is to give vision, the primary sense of human, to any ordinary object through hardware and software innovations.">
+  	<title>mu可视化编程，mu blockly-可视化编程,blockly,mu,mu robots,SpaceBot,morpx,杭州摩图科技有限公司,mu blockly,mu可视化编程</title>
+	<link rel="stylesheet" href="css/style.css" />
+	<link rel="stylesheet" href="css/swiper.min.css">
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<script src="js/swiper.min.js"></script>
+
+	<script src="js/blockly_compressed_horizontal.js"></script><!-- scratch-blocks横版编程核心js-->
+	<script src="js/blockly-stay/message.js"></script>  
+	<script src="js/blockly-stay/math.js"></script>
+	<script src="js/blockly-stay/text.js"></script>
+	<script src="js/blockly-stay/control.js"></script>
+	<script src="js/blockly-stay/event.js"></script>
+	<script src="js/blockly-stay/wedo.js"></script>
+	<script src="js/blocks.js"></script> <!-- 编程快定义js-->
+	<script src="js/test.js"></script> <!-- 页面构建js-->
+	<script src="js/hadware.js"></script> <!-- xml解析js-->
+
+  </head>
+<style>
+.blocklyToolboxDiv {
+	background: rgba(253,126,76,0.2);
+	border-right: solid 1px #fd7e4c;
+	border-top: solid 2px #f67e4c;
+}
+.scratchCategoryMenu{
+	background: none;
+}
+.scratchCategoryMenuItem{
+	background: rgba(253,126,76,0);
+	border-bottom: none;
+}
+.scratchCategoryMenuItem.categorySelected{
+	background: rgba(253,126,76,0.2);
+}
+
+
+/**
+ * app2.1end
+ */
+input.blocklyHtmlInput{
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+.blocklyDropDownDiv {
+  /*   padding-right: 10px; */
+    max-width: 200px;
+}
+.blocklyDropDownDiv .goog-menuitem {
+    padding: 3px 12px;
+    white-space: nowrap;
+    float: left;
+    height: 25px;
+    box-sizing: border-box;
+    border: solid 1px #dcdcdc;
+    margin: 2px 6px;
+    text-align: center;
+}
+#blocklyDiv {
+    /* top: 44px; */
+    /* bottom: 50px; */
+    position: relative;
+}
+</style>
+<body class="web-admin">
+<div class="deletetips"><img class="delete1"  src="images/delete.png"/> <img class="delete2"  src="images/delete2.png"/></div>
+<div id="collaborators"></div>
+<div id="blocklyDiv"></div>    
+<div id="javascript">
+	<img id="jspackup" src="images/close.png" alt="close" onclick='jsmove()'/>
+	<p class="jstext"></p>
+</div>  
+<!-- <span class="button javascript" onclick="jsshow(Blockly.Xml.workspaceToDom(workspace))">
+		<img src="images/js.png" alt="" />
+</span>  -->
+<!-- Sidebar -->
+<div class="hide">
+    	    <h1>Vertical Blocks</h1>
+	    <h1 style="color:red">Warning: Work in Progress</h1>
+	    <p>
+	      <a href="javascript:void(workspace.setVisible(true))">Show</a>
+	      - <a href="javascript:void(workspace.setVisible(false))">Hide</a>
+	    </p>
+	    <form id="options" style="display: none;">
+	        <select name="dir" onchange="document.forms.options.submit()">
+	          <option value="ltr">LTR</option>
+	          <option value="rtl">RTL</option>
+	        </select>
+	        <select name="toolbox" onchange="document.forms.options.submit()">
+	          <option value="categories">Categories</option>
+	          <option value="simple">Simple</option>
+	        </select>
+	        <select name="side" onchange="document.forms.options.submit()">
+	          <option value="start">Start</option>
+	          <option value="end">End</option>
+	          <option value="top">Top</option>
+	          <option value="bottom">Bottom</option>
+	        </select>
+	     </form>
+	
+	    <p>
+	      <input type="button" value="Export to XML" onclick="toXml()">
+	      &nbsp;
+	      <input type="button" value="Import from XML" onclick="fromXml()" id="import">
+	      <br>
+	      <input type="button" value="To JavaScript" onclick="toCode('JavaScript')">
+	      <br>
+	      <textarea id="importExport" style="width: 26%; height: 12em"
+	        onchange="taChange();" onkeyup="taChange()"></textarea>
+	    </p>
+	
+	    <hr>
+	
+	    <p>
+	      Log events: &nbsp;
+	      <input type="checkbox" onclick="logEvents(this.checked)" id="logCheck">
+	    </p>
+	
+	    <p>
+	      Stress test: &nbsp;
+	      <input type="button" value="Sprinkles!" onclick="sprinkles(100)">
+	      <input type="button" value="Spaghetti!" onclick="spaghetti(3)">
+	      <input type="button" value="Fake some drags!" onclick="fakeManyDrags()">
+	    </p>
+	
+	    <p>
+	      Glows: &nbsp;
+	      <input type="button" value="Glow last clicked block" onclick="glowBlock()" />
+	      <input type="button" value="Unglow last clicked block" onclick="unglowBlock()" />
+	      <input type="button" value="Stack glow last clicked block" onclick="glowStack()" />
+	      <input type="button" value="Stack unglow last clicked block" onclick="unglowStack()" />
+	    </p>
+	
+	    <p>
+	      Log flyout events: &nbsp;
+	      <input type="checkbox" onclick="logFlyoutEvents(this.checked)" id="logFlyoutCheck">
+	    </p>
+	
+	    <p>
+	      Enable sounds (after refresh): &nbsp;
+	      <input type="checkbox" onclick="setSoundsEnabled(this.checked)" id="soundsEnabled">
+	    </p>
+	
+	    <p>
+	      <input type="button" value="Undo" onclick="workspace.undo()" />
+	      <input type="button" value="Redo" onclick="workspace.undo(true)" />
+	    </p>
+	
+	    <p>
+	      Report:
+	      <input id="reportValue" type="text" value="123" />
+	      <input type="button" value="Report last clicked block" onclick="reportDemo()" />
+	    </p>
+</div>
+
+<div class="dwt"></div>
+<div contenteditable="true" id="result"></div>
+
+
+<script>
+	function setcolor(){
+		$('.blocklyWidgetDiv .goog-menuitem ').each(function(){
+			$(this).find('.goog-menuitem-checkbox').css('background-color',$(this).children('.goog-menuitem-content').text());
+		});
+		var x= $(window).width()-60;
+		if(!$('#blocklyDiv').hasClass('simple')){   //simple 教育模块
+		          var y= $(window).height()-80;
+		}
+		else{
+		        	var y= $(window).height()-130;
+		}
+		  
+	    $('.blocklyTrash').attr('transform','translate('+x+','+y+')');
+	    $('.blocklyTrash').css({"opacity":"0.6","display":"none"})
+	}
+	function setlangs(){
+		$('.blocklyTreeRow').eq(1).css({"border-bottom":"solid 1px #dcdcdc","color":"#8a8a8a"});
+		$('.blocklyTreeRow').eq(2).css({"border-bottom-color":"#FD7E4C","color":"#FD7E4C","":""});
+		$('.blocklyTreeRow').eq(3).css({"border-bottom-color":"#22AB7F","color":"#22AB7F"});
+		$('.blocklyTreeRow').eq(4).css({"border-bottom-color":"#2266AB","color":"#2266AB"});
+		var url=window.location.href;
+		var lang=$.getUrlParam('lang');
+		//add by rongw  language
+		if(lang=='zh-cn'){
+			$('#prev').text('< 返回');
+			$('#androprev').text('< 返回');
+			
+		}else{
+			$('#prev').text('< BACK');
+			$('#androprev').text('< BACK');
+		}
+		console.log(lang);
+	}
+$('.blocklyWidgetDiv').on('keyup','.blocklyHtmlInput',function(){
+		if($('body').hasClass('kuge')){
+			console.log($(this).val());
+			if(parseInt($(this).val())<0){
+	                                 $(this).val(0);
+			}
+			if(parseInt($(this).val())>255){
+	                                 $(this).val(255);
+			}
+		}
+});
+$(function(){
+	ios=0;android=0;
+	var url=window.location.href;
+	ios=$.getUrlParam('ios');
+	android=$.getUrlParam('android');
+	if(ios==1){
+		//$('.iosbutton').show();
+		$('#androprev').show();
+	}
+	if(android==1){
+		$('#androprev').show();
+	}
+	//$('#blocklyDiv').css('height',$(window).height()-99);
+	setInterval('setcolor()',100);
+	//var height=$(window).height()-96;
+	$('.blocklyToolboxDiv').css({"height":'100%'});
+})
+
+
+
+   
+
+</script>
+</body>
+</html>
